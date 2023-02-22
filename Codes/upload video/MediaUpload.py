@@ -90,6 +90,7 @@ class UploadInYT:
             print("Sleeping %f seconds and then retrying..." % sleep_seconds)
             time.sleep(sleep_seconds)
     
+    @staticmethod
     def UploadThumnailInYT(VideoId):
         ThumbnailPath = "C:/Users/User/Downloads/hello.jpg"
         try:
@@ -101,7 +102,8 @@ class UploadInYT:
             print("Your Youtube channel is unverified so that you cannot upload custom Thumbnails." + "\n" +
                   "You need to verify your account to upload Thumbnail." + "\n" +
                   "You can do this by navigating to YouTube > clicking your profile icon > Settings > Channel status and features > Channel > Feature eligibility > Intermediate features.")
-      
+
+    @staticmethod 
     def SendMail(VideoId):
         creds = None
         if os.path.exists('token.json'):
@@ -161,7 +163,6 @@ YOUTUBE_API_VERSION = "v3"
 MISSING_CLIENT_SECRETS_MESSAGE = os.path.abspath(os.path.join(os.path.dirname(__file__), CLIENT_SECRETS_FILE))
 VALID_PRIVACY_STATUSES = ("public", "private", "unlisted")
 
-
 flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE, scope=YOUTUBE_UPLOAD_SCOPE, message=MISSING_CLIENT_SECRETS_MESSAGE)
 storage = Storage("%s-oauth2.json" % sys.argv[0])
 credentials = storage.get()
@@ -170,10 +171,9 @@ if credentials is None or credentials.invalid:
 
 youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, http=credentials.authorize(httplib2.Http()))
 
-
 GMAIL_SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
 YouTubeUpload = UploadInYT("C:/Users/User/Desktop/samplevid.mp4", "AN UNBELEIVABLE SKILL", "A world class skill showed by a kid", "skill kid boy fight")
 VideoId = YouTubeUpload.UploadVideoInYT()  
-UploadInYT.UploadThumnailInYT('STMAqHyk3f8')
-UploadInYT.SendMail('STMAqHyk3f8')
+YouTubeUpload.UploadThumnailInYT(VideoId)
+YouTubeUpload.SendMail(VideoId)
